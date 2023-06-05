@@ -2,77 +2,84 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreatePokemonInput } from './dto/create-pokemon.input';
 import { UpdatePokemonInput } from './dto/update-pokemon.input';
 import { Pokemon } from './entities/pokemon.entity';
-
-let pokemons: Pokemon[] = [];
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class PokemonService {
-  create(createPokemonInput: CreatePokemonInput) {
-    const id = pokemons.length + 1;
+  constructor(
+    @InjectRepository(Pokemon)
+    private readonly pokemonRepository: Repository<Pokemon>,
+  ) {}
+  async create(createPokemonInput: CreatePokemonInput) {
     const name = createPokemonInput.name;
 
-    const isPresent = pokemons.find((poke) => poke.name === name);
+    const isPresent = await this.pokemonRepository.countBy({
+      name: name,
+    });
 
     if (!isPresent) {
-      const poke = { id: id, ...createPokemonInput };
-      pokemons.push(poke);
+      const poke = await this.pokemonRepository.save(createPokemonInput);
+
       return poke;
     }
     throw new HttpException(`${name} already exists`, HttpStatus.BAD_REQUEST);
   }
 
-  findAll() {
-    return pokemons;
+  async findAll() {
+    const poke = await this.pokemonRepository.findAndCount();
+
+    return poke[0];
   }
 
-  findOne(id: number) {
-    const poke = pokemons.find((poke) => poke.id === id);
+  async findOne(id: string) {
+    const poke = await this.pokemonRepository.findOneBy({
+      id: id,
+    });
+
     if (!poke) {
       throw new HttpException('No poke with given id', HttpStatus.BAD_REQUEST);
     }
+
     return poke;
   }
 
-  update(updatePokemonInput: UpdatePokemonInput) {
+  async update(updatePokemonInput: UpdatePokemonInput) {
     const id = updatePokemonInput.id;
-    let wasFound = false;
-
-    const pokes = pokemons.flatMap((poke) => {
-      if (poke.id === id) {
-        wasFound = true;
-        if (updatePokemonInput.name) {
-          poke.name = updatePokemonInput.name;
-        }
-        if (updatePokemonInput.type) {
-          poke.type = updatePokemonInput.type;
-        }
-      }
-      return poke;
+    const poke = await this.pokemonRepository.findOneBy({
+      id: id,
     });
-    if (!wasFound) {
+
+    if (!poke) {
       throw new HttpException(
         'no poke with given id found',
         HttpStatus.NOT_FOUND,
       );
     }
-    pokemons = pokes;
 
-    return { id: id, message: 'updated' };
+    await this.pokemonRepository.update(
+      {
+        id: id,
+      },
+      updatePokemonInput,
+    );
+
+    return this.findOne(id);
   }
 
-  remove(id: number) {
-    let wasFound = false;
-    pokemons = pokemons.filter((poke) => {
-      if (poke.id === id) {
-        wasFound = true;
-        return false;
-      }
-      return true;
+  async remove(id: string) {
+    await this.pokemonRepository.delete({
+      id: id,
     });
 
-    if (!wasFound) {
-      throw new HttpException('id not found', HttpStatus.I_AM_A_TEAPOT);
-    }
+    return {
+      message: id,
+      status: 200,
+    };
+  }
+
+  async removeAll() {
+    await this.pokemonRepository.clear();
 
     return {
       message: 'update success',

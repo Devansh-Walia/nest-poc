@@ -3,7 +3,7 @@ import { PokemonService } from './pokemon.service';
 import { CreatePokemonInput } from './dto/create-pokemon.input';
 import { UpdatePokemonInput } from './dto/update-pokemon.input';
 
-@Resolver('Pokemon')
+@Resolver('pokemon')
 export class PokemonResolver {
   constructor(private readonly pokemonService: PokemonService) {}
 
@@ -18,7 +18,7 @@ export class PokemonResolver {
   }
 
   @Query('pokemon')
-  findOne(@Args('id') id: number) {
+  findOne(@Args('id') id: string) {
     return this.pokemonService.findOne(id);
   }
 
@@ -28,7 +28,11 @@ export class PokemonResolver {
   }
 
   @Mutation('removePokemon')
-  remove(@Args('id') id: number) {
+  remove(@Args('id') id: string) {
     return this.pokemonService.remove(id);
+  }
+  @Mutation('removeAllPokemon')
+  removeAll() {
+    return this.pokemonService.removeAll();
   }
 }

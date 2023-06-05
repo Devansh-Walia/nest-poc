@@ -1,8 +1,10 @@
 type Pokemon {
-  id: Int
+  id: String
   name: String
   type: String
+  description: String
 }
+
 type Message {
   message: String
   status: Int
@@ -11,21 +13,24 @@ type Message {
 input CreatePokemonInput {
   name: String
   type: String
+  description: String
 }
 
 input UpdatePokemonInput {
-  id: Int!
+  id: String!
   name: String
   type: String
+  description: String
 }
 
 type Query {
   pokemonAll: [Pokemon]!
-  pokemon(id: Int!): Pokemon
+  pokemon(id: String!): Pokemon
 }
 
 type Mutation {
   createPokemon(createPokemonInput: CreatePokemonInput!): Pokemon!
   updatePokemon(updatePokemonInput: UpdatePokemonInput!): Pokemon!
-  removePokemon(id: Int!): Message
+  removePokemon(id: String!): Message
+  removeAllPokemon: Message
 }

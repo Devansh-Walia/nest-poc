@@ -11,18 +11,21 @@
 export interface CreatePokemonInput {
     name?: Nullable<string>;
     type?: Nullable<string>;
+    description?: Nullable<string>;
 }
 
 export interface UpdatePokemonInput {
-    id: number;
+    id: string;
     name?: Nullable<string>;
     type?: Nullable<string>;
+    description?: Nullable<string>;
 }
 
 export interface Pokemon {
-    id?: Nullable<number>;
+    id?: Nullable<string>;
     name?: Nullable<string>;
     type?: Nullable<string>;
+    description?: Nullable<string>;
 }
 
 export interface Message {
@@ -32,13 +35,14 @@ export interface Message {
 
 export interface IQuery {
     pokemonAll(): Nullable<Pokemon>[] | Promise<Nullable<Pokemon>[]>;
-    pokemon(id: number): Nullable<Pokemon> | Promise<Nullable<Pokemon>>;
+    pokemon(id: string): Nullable<Pokemon> | Promise<Nullable<Pokemon>>;
 }
 
 export interface IMutation {
     createPokemon(createPokemonInput: CreatePokemonInput): Pokemon | Promise<Pokemon>;
     updatePokemon(updatePokemonInput: UpdatePokemonInput): Pokemon | Promise<Pokemon>;
-    removePokemon(id: number): Nullable<Message> | Promise<Nullable<Message>>;
+    removePokemon(id: string): Nullable<Message> | Promise<Nullable<Message>>;
+    removeAllPokemon(): Nullable<Message> | Promise<Nullable<Message>>;
 }
 
 type Nullable<T> = T | null;

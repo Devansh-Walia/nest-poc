@@ -1,5 +1,16 @@
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+
+@Entity({ name: 'pokemon' })
 export class Pokemon {
-  id: number;
+  @PrimaryGeneratedColumn()
+  id: string;
+
+  @Column()
   name: string;
+
+  @Column()
   type: string;
+
+  @Column('text')
+  description: string;
 }
