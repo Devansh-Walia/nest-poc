@@ -21,6 +21,17 @@ export interface UpdatePokemonInput {
     description?: Nullable<string>;
 }
 
+export interface CreateTrainerInput {
+    name?: Nullable<string>;
+    hometown?: Nullable<string>;
+}
+
+export interface UpdateTrainerInput {
+    id: string;
+    name?: Nullable<string>;
+    hometown?: Nullable<string>;
+}
+
 export interface Pokemon {
     id?: Nullable<string>;
     name?: Nullable<string>;
@@ -36,6 +47,8 @@ export interface Message {
 export interface IQuery {
     pokemonAll(): Nullable<Pokemon>[] | Promise<Nullable<Pokemon>[]>;
     pokemon(id: string): Nullable<Pokemon> | Promise<Nullable<Pokemon>>;
+    trainerAll(): Nullable<Trainer>[] | Promise<Nullable<Trainer>[]>;
+    trainer(id: string): Nullable<Trainer> | Promise<Nullable<Trainer>>;
 }
 
 export interface IMutation {
@@ -43,6 +56,16 @@ export interface IMutation {
     updatePokemon(updatePokemonInput: UpdatePokemonInput): Pokemon | Promise<Pokemon>;
     removePokemon(id: string): Nullable<Message> | Promise<Nullable<Message>>;
     removeAllPokemon(): Nullable<Message> | Promise<Nullable<Message>>;
+    createTrainer(createTrainerInput: CreateTrainerInput): Trainer | Promise<Trainer>;
+    updateTrainer(updateTrainerInput: UpdateTrainerInput): Trainer | Promise<Trainer>;
+    removeTrainer(id: string): Nullable<Trainer> | Promise<Nullable<Trainer>>;
+    removeTrainerAll(): Nullable<Message> | Promise<Nullable<Message>>;
+}
+
+export interface Trainer {
+    id?: Nullable<string>;
+    name?: Nullable<string>;
+    hometown?: Nullable<string>;
 }
 
 type Nullable<T> = T | null;

@@ -9,6 +9,8 @@ import { join } from 'path';
 import 'reflect-metadata';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Pokemon } from './pokemon/entities/pokemon.entity';
+import { TrainerModule } from './trainer/trainer.module';
+import { Trainer } from './trainer/entities/trainer.entity';
 
 @Module({
   imports: [
@@ -20,7 +22,7 @@ import { Pokemon } from './pokemon/entities/pokemon.entity';
       password: process.env.DB_PASSWORD,
       port: 5432,
       database: process.env.DB_NAME,
-      entities: [Pokemon],
+      entities: [Pokemon, Trainer],
       synchronize: false,
       autoLoadEntities: true,
     }),
@@ -32,6 +34,7 @@ import { Pokemon } from './pokemon/entities/pokemon.entity';
       },
     }),
     PokemonModule,
+    TrainerModule,
   ],
   controllers: [AppController],
   providers: [AppService],

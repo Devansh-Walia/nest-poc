@@ -1,0 +1,33 @@
+type Trainer {
+  id: String
+  name: String
+  hometown: String
+}
+
+type Message {
+  message: String
+  status: Int
+}
+
+input CreateTrainerInput {
+  name: String
+  hometown: String
+}
+
+input UpdateTrainerInput {
+  id: String!
+  name: String
+  hometown: String
+}
+
+type Query {
+  trainerAll: [Trainer]!
+  trainer(id: String!): Trainer
+}
+
+type Mutation {
+  createTrainer(createTrainerInput: CreateTrainerInput!): Trainer!
+  updateTrainer(updateTrainerInput: UpdateTrainerInput!): Trainer!
+  removeTrainer(id: String!): Trainer
+  removeTrainerAll: Message
+}
