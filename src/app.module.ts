@@ -11,6 +11,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Pokemon } from './pokemon/entities/pokemon.entity';
 import { TrainerModule } from './trainer/trainer.module';
 import { Trainer } from './trainer/entities/trainer.entity';
+import { CapturedPokeModule } from './captured-poke/captured-poke.module';
+import { CapturedPoke } from './captured-poke/entities/captured-poke.entity';
 
 @Module({
   imports: [
@@ -22,7 +24,7 @@ import { Trainer } from './trainer/entities/trainer.entity';
       password: process.env.DB_PASSWORD,
       port: 5432,
       database: process.env.DB_NAME,
-      entities: [Pokemon, Trainer],
+      entities: [Pokemon, Trainer, CapturedPoke],
       synchronize: false,
       autoLoadEntities: true,
     }),
@@ -35,6 +37,7 @@ import { Trainer } from './trainer/entities/trainer.entity';
     }),
     PokemonModule,
     TrainerModule,
+    CapturedPokeModule,
   ],
   controllers: [AppController],
   providers: [AppService],

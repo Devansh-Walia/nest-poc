@@ -1,0 +1,38 @@
+type CapturedPoke {
+  id: String
+  poke_id: String
+  trainer_id: String
+  count: Int
+}
+
+type Message {
+  message: String
+  status: Int
+}
+
+input CreateCapturedPokeInput {
+  trainer_id: String
+  poke_id: String
+}
+
+input UpdateCapturedPokeInput {
+  id: String!
+  poke_id: String
+  trainer_id: String
+  count: Int
+}
+
+type Query {
+  capturedPokeByTrainer(t_id: String!): [CapturedPoke]!
+  capturedTrainer(p_id: String!): [CapturedPoke]!
+}
+
+type Mutation {
+  createCapturedPoke(
+    createCapturedPokeInput: CreateCapturedPokeInput!
+  ): CapturedPoke!
+  updateCapturedPoke(
+    updateCapturedPokeInput: UpdateCapturedPokeInput!
+  ): CapturedPoke!
+  removeCapturedPoke(id: String!): Message
+}

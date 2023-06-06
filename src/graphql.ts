@@ -8,6 +8,18 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export interface CreateCapturedPokeInput {
+    trainer_id?: Nullable<string>;
+    poke_id?: Nullable<string>;
+}
+
+export interface UpdateCapturedPokeInput {
+    id: string;
+    poke_id?: Nullable<string>;
+    trainer_id?: Nullable<string>;
+    count?: Nullable<number>;
+}
+
 export interface CreatePokemonInput {
     name?: Nullable<string>;
     type?: Nullable<string>;
@@ -32,11 +44,11 @@ export interface UpdateTrainerInput {
     hometown?: Nullable<string>;
 }
 
-export interface Pokemon {
+export interface CapturedPoke {
     id?: Nullable<string>;
-    name?: Nullable<string>;
-    type?: Nullable<string>;
-    description?: Nullable<string>;
+    poke_id?: Nullable<string>;
+    trainer_id?: Nullable<string>;
+    count?: Nullable<number>;
 }
 
 export interface Message {
@@ -45,6 +57,8 @@ export interface Message {
 }
 
 export interface IQuery {
+    capturedPokeByTrainer(t_id: string): Nullable<CapturedPoke>[] | Promise<Nullable<CapturedPoke>[]>;
+    capturedTrainer(p_id: string): Nullable<CapturedPoke>[] | Promise<Nullable<CapturedPoke>[]>;
     pokemonAll(): Nullable<Pokemon>[] | Promise<Nullable<Pokemon>[]>;
     pokemon(id: string): Nullable<Pokemon> | Promise<Nullable<Pokemon>>;
     trainerAll(): Nullable<Trainer>[] | Promise<Nullable<Trainer>[]>;
@@ -52,6 +66,9 @@ export interface IQuery {
 }
 
 export interface IMutation {
+    createCapturedPoke(createCapturedPokeInput: CreateCapturedPokeInput): CapturedPoke | Promise<CapturedPoke>;
+    updateCapturedPoke(updateCapturedPokeInput: UpdateCapturedPokeInput): CapturedPoke | Promise<CapturedPoke>;
+    removeCapturedPoke(id: string): Nullable<Message> | Promise<Nullable<Message>>;
     createPokemon(createPokemonInput: CreatePokemonInput): Pokemon | Promise<Pokemon>;
     updatePokemon(updatePokemonInput: UpdatePokemonInput): Pokemon | Promise<Pokemon>;
     removePokemon(id: string): Nullable<Message> | Promise<Nullable<Message>>;
@@ -60,6 +77,13 @@ export interface IMutation {
     updateTrainer(updateTrainerInput: UpdateTrainerInput): Trainer | Promise<Trainer>;
     removeTrainer(id: string): Nullable<Trainer> | Promise<Nullable<Trainer>>;
     removeTrainerAll(): Nullable<Message> | Promise<Nullable<Message>>;
+}
+
+export interface Pokemon {
+    id?: Nullable<string>;
+    name?: Nullable<string>;
+    type?: Nullable<string>;
+    description?: Nullable<string>;
 }
 
 export interface Trainer {
