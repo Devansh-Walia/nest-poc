@@ -46,8 +46,8 @@ export interface UpdateTrainerInput {
 
 export interface CapturedPoke {
     id?: Nullable<string>;
-    poke_id?: Nullable<string>;
-    trainer_id?: Nullable<string>;
+    poke?: Nullable<Pokemon>;
+    trainer?: Nullable<Trainer>;
     count?: Nullable<number>;
 }
 
@@ -66,7 +66,7 @@ export interface IQuery {
 }
 
 export interface IMutation {
-    createCapturedPoke(createCapturedPokeInput: CreateCapturedPokeInput): CapturedPoke | Promise<CapturedPoke>;
+    createCapturedPoke(trainer_id?: Nullable<string>, poke_id?: Nullable<string>): CapturedPoke | Promise<CapturedPoke>;
     updateCapturedPoke(updateCapturedPokeInput: UpdateCapturedPokeInput): CapturedPoke | Promise<CapturedPoke>;
     removeCapturedPoke(id: string): Nullable<Message> | Promise<Nullable<Message>>;
     createPokemon(createPokemonInput: CreatePokemonInput): Pokemon | Promise<Pokemon>;

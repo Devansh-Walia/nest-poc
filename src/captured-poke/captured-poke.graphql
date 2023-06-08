@@ -1,7 +1,7 @@
 type CapturedPoke {
   id: String
-  poke_id: String
-  trainer_id: String
+  poke: Pokemon
+  trainer: Trainer
   count: Int
 }
 
@@ -28,9 +28,7 @@ type Query {
 }
 
 type Mutation {
-  createCapturedPoke(
-    createCapturedPokeInput: CreateCapturedPokeInput!
-  ): CapturedPoke!
+  createCapturedPoke(trainer_id: String, poke_id: String): CapturedPoke!
   updateCapturedPoke(
     updateCapturedPokeInput: UpdateCapturedPokeInput!
   ): CapturedPoke!

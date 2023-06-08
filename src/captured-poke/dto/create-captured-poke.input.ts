@@ -1,4 +1,7 @@
+import { Pokemon } from 'src/pokemon/entities/pokemon.entity';
+import { Trainer } from 'src/trainer/entities/trainer.entity';
+
 export class CreateCapturedPokeInput {
-  trainer_id: string;
-  poke_id: string;
+  trainer: Trainer;
+  poke: Pokemon;
 }

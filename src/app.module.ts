@@ -13,19 +13,20 @@ import { TrainerModule } from './trainer/trainer.module';
 import { Trainer } from './trainer/entities/trainer.entity';
 import { CapturedPokeModule } from './captured-poke/captured-poke.module';
 import { CapturedPoke } from './captured-poke/entities/captured-poke.entity';
+import { applicationConfig } from 'config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath: ['.env'] }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.DB_HOST || 'localhost',
-      username: process.env.DB_USER_NAME,
-      password: process.env.DB_PASSWORD,
+      host: applicationConfig.db.host || 'localhost',
+      username: applicationConfig.db.name,
+      password: applicationConfig.db.password,
       port: 5432,
-      database: process.env.DB_NAME,
+      database: applicationConfig.db.name,
       entities: [Pokemon, Trainer, CapturedPoke],
-      synchronize: false,
+      synchronize: true,
       autoLoadEntities: true,
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
